@@ -1,4 +1,5 @@
-database = joinpath("..", "Data")
+# Path to Data from project root (works regardless of CWD)
+database = joinpath(@__DIR__, "..", "Data")
 years = [2019, 2020, 2021, 2022, 2023, 2024, 2025]
 
 dfs = DataFrame[]
@@ -11,10 +12,7 @@ for yearid in years
     push!(dfs, thisyear)
 end
 
-fullset = dfs[1]
-for i = 2:length(dfs)
-    fullset = vcat(fullset, dfs[i])
-end
+fullset = vcat(dfs...)
 
 # (This line is unused downstream; keep only if you need to inspect one year)
 thisyear = DataFrame(CSV.File(joinpath(database, string(2022), "final_format.csv")));
